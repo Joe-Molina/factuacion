@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model usuarios {
+  id                Int                 @id @default(autoincrement())
+  usuario           String
+  email             String
+  contrasena        String
+  tipoUsuario       String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  historialFacturas historialFacturas[]
+  factura           factura[]
+  clientes          clientes[]
+  productos         productos[]
+}
+
+model historialFacturas {
+  id                Int      @id @default(autoincrement())
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  adminCreador      usuarios @relation(fields: [id_admin_creador], references: [id])
+  id_admin_creador  Int
+  factura_creada    factura  @relation(fields: [id_factura_creada], references: [id])
+  id_factura_creada Int
+}
+
+model iniciosDeSesion {
+  id         Int      @id @default(autoincrement())
+  id_usuario Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model factura {
+  id                 Int                 @id @default(autoincrement())
+  admin_creador      usuarios            @relation(fields: [id_admin_creador], references: [id])
+  id_admin_creador   Int
+  cliente            clientes            @relation(fields: [id_cliente], references: [id])
+  id_cliente         Int
+  DescripcionFactura String
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  historialFacturas  historialFacturas[]
+  detallesFactura    detallesFactura[]
+}
+
+model clientes {
+  id               Int       @id @default(autoincrement())
+  admin_creador    usuarios  @relation(fields: [id_admin_creador], references: [id])
+  id_admin_creador Int
+  nombre           String
+  apellido         String
+  Domicilio        String
+  Cedula           String
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  factura          factura[]
+}
+
+model productos {
+  id               Int               @id @default(autoincrement())
+  admin_creador    usuarios          @relation(fields: [id_admin_creador], references: [id])
+  id_admin_creador Int
+  nombre           String
+  descripcion      String
+  precio           String
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  detallesFactura  detallesFactura[]
+}
+
+model detallesFactura {
+  id                      Int       @id @default(autoincrement())
+  factura_referenciada    factura   @relation(fields: [id_factura_referenciada], references: [id])
+  id_factura_referenciada Int
+  producto                productos @relation(fields: [id_producto], references: [id])
+  id_producto             Int
+  cantidad                Int
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+}
