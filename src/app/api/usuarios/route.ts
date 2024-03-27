@@ -21,14 +21,14 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const { usuario, email, contrasena, tipoUsuario } = await request.json();
+    const { username, email, password, tipo_usuario } = await request.json();
 
     const newUsuario = await prisma.usuarios.create({
       data: {
-        usuario,
+        username,
         email,
-        contrasena,
-        tipoUsuario,
+        password,
+        tipo_usuario,
       },
     });
 
