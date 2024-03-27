@@ -3,8 +3,8 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const auditoria = await prisma.clientes.findMany();
-    return NextResponse.json(auditoria);
+    const clientes = await prisma.clientes.findMany();
+    return NextResponse.json(clientes);
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json(
@@ -21,7 +21,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const { id_admin_creador, nombre, apellido, Domicilio, Cedula, createdAt } =
+    const { id_admin_creador, nombre, apellido, Domicilio, Cedula } =
       await request.json();
 
     const newInicioDeSesion = await prisma.clientes.create({
@@ -31,7 +31,6 @@ export async function POST(request: Request) {
         apellido,
         Domicilio,
         Cedula,
-        createdAt,
       },
     });
 

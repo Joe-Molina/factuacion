@@ -21,12 +21,11 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const { id_usuario, createdAt } = await request.json();
+    const { id_usuario } = await request.json();
 
     const newInicioDeSesion = await prisma.iniciosDeSesion.create({
       data: {
         id_usuario,
-        createdAt,
       },
     });
 

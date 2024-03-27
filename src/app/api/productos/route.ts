@@ -3,8 +3,8 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const auditoria = await prisma.productos.findMany();
-    return NextResponse.json(auditoria);
+    const productos = await prisma.productos.findMany();
+    return NextResponse.json(productos);
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json(
@@ -21,7 +21,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const { id_admin_creador, nombre, descripcion, precio, createdAt } =
+    const { id_admin_creador, nombre, descripcion, precio } =
       await request.json();
 
     const newProducto = await prisma.productos.create({
@@ -30,7 +30,6 @@ export async function POST(request: Request) {
         nombre,
         descripcion,
         precio,
-        createdAt,
       },
     });
 
