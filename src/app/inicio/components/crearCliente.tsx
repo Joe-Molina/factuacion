@@ -12,8 +12,7 @@ export function CrearCliente(id: any) {
  const id_admin_creador = Number(id.id)
 
   return (
-    <div>
-        <h3>crear Cliente</h3>
+    <div className='max-h-64'>
         <form 
         onSubmit={async (e) => {
             e.preventDefault();
@@ -36,12 +35,13 @@ export function CrearCliente(id: any) {
             
             location.reload()
         }}
-        className='flex flex-col gap-2 w-44'>
-            <input type="text" name='nombre' onChange={(e) => setnombre(e.target.value)} placeholder='nombre'/>
-            <input type="text" name='apellido' onChange={(e) => setapellido(e.target.value)} placeholder='apellido'/>
-            <input type="text" name='domicilio' onChange={(e) => setdomicilio(e.target.value)} placeholder='domicilio'/>
-            <input type="text" name='cedula' onChange={(e) => setcedula(e.target.value)} placeholder='cedula'/>
-            <input type="submit" />
+        className='flex flex-col gap-2 bg-neutral-800 p-3 text-neutral-300 '>
+            <p className='text-neutral-300'>Crear cliente</p>
+            <input type="text" name='nombre' onChange={(e) => setnombre(e.target.value)} placeholder='nombre' className='bg-neutral-700 p-1 rounded-md '/>
+            <input type="text" name='apellido' onChange={(e) => setapellido(e.target.value)} placeholder='apellido' className='bg-neutral-700 p-1 rounded-md '/>
+            <input type="text" name='domicilio' onChange={(e) => setdomicilio(e.target.value)} placeholder='domicilio' className='bg-neutral-700 p-1 rounded-md '/>
+            <input type="text" name='cedula' onChange={(e) => setcedula(e.target.value)} placeholder='cedula' className='bg-neutral-700 p-1 rounded-md '/>
+            <input type="submit" className='bg-slate-600 rounded-sm p-1'/>
         </form>
     </div>
   )
