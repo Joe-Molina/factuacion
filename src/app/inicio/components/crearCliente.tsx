@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react'
-import { createCliente } from '../services/createCliente'
+import {enviarDatosCliente} from '../services/enviarDatoscliente'
 
 export function CrearCliente(id: any) {
 
@@ -14,27 +14,14 @@ export function CrearCliente(id: any) {
   return (
     <div className='max-h-64'>
         <form 
-        onSubmit={async (e) => {
-            e.preventDefault();
-
-            console.log(
-                nombre,
-                apellido,
-                Domicilio,
-                Cedula,
-                id_admin_creador)
-
-            await createCliente({
-                id_admin_creador,
-        nombre,
-        apellido,
-        Domicilio,
-        Cedula,
-            })
-
-            
-            location.reload()
-        }}
+        //@ts-ignore
+        onSubmit={(e) => enviarDatosCliente(e, {
+            id_admin_creador,
+            nombre,
+            apellido,
+            Domicilio,
+            Cedula,
+          })}
         className='flex flex-col gap-2 bg-neutral-800 p-3 text-neutral-300 '>
             <p className='text-neutral-300'>Crear cliente</p>
             <input type="text" name='nombre' onChange={(e) => setnombre(e.target.value)} placeholder='nombre' className='bg-neutral-700 p-1 rounded-md '/>
