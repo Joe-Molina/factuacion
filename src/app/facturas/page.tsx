@@ -1,11 +1,11 @@
 import React from 'react'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions, loginIsRequiredServer } from '@/app/api/auth/[...nextauth]/route';
 import { getServerSession } from 'next-auth';
 import CrearFactura from './components/CrearFactura';
 
 export default async function Facturas() {
     //@ts-ignore
-    const session = await getServerSession(authOptions);
+    const session = await loginIsRequiredServer();
     //@ts-ignore
     const userId = session.user.id
 

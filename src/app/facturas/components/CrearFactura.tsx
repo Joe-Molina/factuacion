@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState }  from 'react'
+import React, { useEffect, useState }  from 'react'
 import {CreateDetalle} from '../services/createDetalleFactura'
 import {CreateFactura} from '../services/createFactura'
 
@@ -17,6 +17,10 @@ export default function CrearFactura(id: any) {
     // estado que contiene los datos del estado
     const [id_producto, setProducto] = useState(2)
     const [cantidad, setcantidad] = useState(0)
+
+    //Productos y clientes
+    const [productos, setproductos] = useState([])
+    const [clientes, setclientes] = useState([])
     
     //estado que contiene los detalles de la factura
     const [detalles, setdetalles] = useState([])
@@ -46,6 +50,45 @@ export default function CrearFactura(id: any) {
       console.log(NewDetalles)
       console.log(detalles)
     }
+
+
+    const obtenerProductos = async () => {
+      try {
+        const res = await fetch(`/api/productos`);
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const datos = await res.json();
+        setproductos(datos);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    
+    useEffect(() => {
+      obtenerProductos();
+    }, []);
+
+    const obtenerClientes = async () => {
+      try {
+        const res = await fetch(`/api/clientes`);
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const datos = await res.json();
+        setclientes(datos);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    
+    useEffect(() => {
+      obtenerProductos();
+      obtenerClientes();
+    }, []);
+
+    console.log(productos)
+    console.log(clientes)
 
 
   return (
@@ -81,8 +124,16 @@ export default function CrearFactura(id: any) {
 
             <label htmlFor="clientes" className='text-neutral-300 p-1' >Clientes</label>
             <select className='text-neutral-300 p-1 rounded-md mb-3 bg-neutral-800' name="clientes" id="" onChange={(e) => { const number = Number(e.target.value); setid_cliente(number); console.log(number)}}>
-              <option value="2" className='text-neutral-300 p-1 rounded-md'>joe</option>
-              <option value="3" className='text-neutral-300 p-1 rounded-md'>jose</option>
+            {
+                clientes.map((cliente, index) => (
+                  <option value={
+                    //@ts-ignore
+                    cliente.id} className='text-neutral-300 p-1 rounded-md' key={index}> {cliente.nombre + ' ' + cliente.apellido} </option>
+
+                ))
+              }
+
+              
 
             </select>
 
@@ -95,8 +146,14 @@ export default function CrearFactura(id: any) {
                 <p className='text-neutral-300'>Agregar Producto</p>
 
                 <select className='bg-neutral-700 text-neutral-300 p-1 rounded-md' name="productos" id="" onChange={(e) => { const number = Number(e.target.value); setProducto(number);}}>
-                <option className='placeholder:text-neutral-500 p-1 rounded-md' value="2">martillo</option>
-                <option className='placeholder:text-neutral-500 p-1 rounded-md' value="3">destornillador</option>
+                {
+                productos.map((producto, index) => (
+                  <option value={
+                    //@ts-ignore
+                    producto.id} className='text-neutral-300 p-1 rounded-md' key={index}>{producto.nombre}</option>
+
+                ))
+              }
 
                 </select>
                 <input className='bg-neutral-700 text-neutral-300 p-1 rounded-md w-20 placeholder:text-neutral-400' type="number" name='cantidad' onChange={(e) => {const number = Number(e.target.value); setcantidad(number)}} placeholder='cantidad'/>

@@ -1,5 +1,5 @@
 import React, { use } from 'react'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions, loginIsRequiredServer } from '@/app/api/auth/[...nextauth]/route';
 import { getServerSession } from 'next-auth';
 import { CrearCliente } from './components/crearCliente';
 import { Clientes } from './components/clientes';
@@ -8,8 +8,11 @@ import { Productos } from './components/productos';
 
 
 async function page() {
+
+
+
     //@ts-ignore
-    const session = await getServerSession(authOptions);
+    const session = await loginIsRequiredServer();
     //@ts-ignore
     const userId = session.user.id
 
