@@ -47,6 +47,7 @@ export default function CrearFactura(id: any) {
       //@ts-ignore
       setdetalles(NewDetalles)
 
+      console.log('detalles')
       console.log(NewDetalles)
       console.log(detalles)
     }
@@ -110,10 +111,12 @@ export default function CrearFactura(id: any) {
 
           //@ts-ignore
           detalles.map( async (detalle) => {
-            const NewDetalle = await CreateDetalle({
+            await CreateDetalle({
               id_factura_referenciada,
-              id_producto,
-              cantidad,
+              //@ts-ignore
+              id_producto: detalle.id_producto,
+              //@ts-ignore
+              cantidad: detalle.cantidad,
             })
 
             location.reload()

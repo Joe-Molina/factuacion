@@ -26,11 +26,11 @@ export function Productos() {
         </article>
     <div className='flex flex-wrap'>
       {
-        productos.map((producto: any) => (
-          <article className='bg-neutral-800 text-neutral-300 p-1 px-4 flex justify-start w-full border-b border-b-neutral-900'>
+        productos.map((producto: any, index) => (
+          <article className='bg-neutral-800 text-neutral-300 p-1 px-4 flex justify-start w-full border-b border-b-neutral-900' key={index}>
             <h3 className='w-32 mr-2 max-h-6 overflow-hidden '>{producto.nombre}</h3>
-            <p className='w-32 mr-2 max-h-6 overflow-hidden '>descripcion: {producto.descripcion}</p>
-            <p className='overflow-hidden'>precio: {producto.precio}$</p>
+            <p className='overflow-hidden w-32'>{producto.precio}$</p>
+            <p className='w-32 mr-2 max-h-6 overflow-hidden '>{producto.descripcion}</p>
           </article>
         ))
       }
