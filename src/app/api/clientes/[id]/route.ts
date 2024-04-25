@@ -36,20 +36,25 @@ export async function GET(request: Request, { params }: Params) {
 }
 
 export async function DELETE(request: Request, { params }: Params) {
+
+  const idCliente = Number(params.id)
+
   try {
-    const deleteCliente = await prisma.clientes.delete({
-      where: {
-        id: Number(params.id),
-      },
-    });
 
-    if (!deleteCliente) {
-      return NextResponse.json(
-        { message: "Cliente no encontrada" },
-        { status: 404 }
-      );
-    }
-
+       const deleteCliente = await prisma.clientes.delete({
+          where: {
+           id: idCliente
+          },
+      });
+      
+      
+      if (!deleteCliente) {
+        return NextResponse.json(
+          { message: "Cliente no encontrada" },
+          { status: 404 }
+        );
+      }
+      
     return NextResponse.json(deleteCliente);
   } catch (error) {
     if (error instanceof Error) {
